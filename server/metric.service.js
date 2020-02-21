@@ -3,6 +3,8 @@ const moment = require('moment')
 const metrics = new Map()
 
 const collectExpiredMetrics = () => {
+  if (metrics.size === 0) { return }
+
   for (const [metricId, metric] of metrics.entries()) {
     const oneHourEarlier = moment().subtract(1, 'hour')
 
