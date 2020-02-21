@@ -29,16 +29,16 @@ module.exports = {
       value
     }
   },
-  setMetric(id, newValue) {
-    if (metrics.has(id)) {
-      const oldMetric = metrics.get(id)
+  setMetric(metricId, newValue) {
+    if (metrics.has(metricId)) {
+      const oldMetric = metrics.get(metricId)
 
-      metrics.set(id, {
+      metrics.set(metricId, {
         ...oldMetric,
         value: oldMetric.value + newValue
       })
     } else {
-      metrics.set(id, {
+      metrics.set(metricId, {
         created: moment().format(),
         value: newValue
       })

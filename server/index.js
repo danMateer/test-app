@@ -9,11 +9,9 @@ const app = express()
 app.use(express.json())
 
 
-app.get('/metric/:metric/sum', (req, res) => {
-  const metricId = req.params.metric
-
+app.get('/metric/:metricId/sum', (req, res) => {
   try {
-    res.json(metricService.getMetricById(metricId))
+    res.json(metricService.getMetricById(req.params.metricId))
   } catch (err) {
     res.sendStatus(404)
   }
@@ -21,6 +19,7 @@ app.get('/metric/:metric/sum', (req, res) => {
 
 app.post('/metric/:metricId', (req, res) => {
   metricService.setMetric(req.params.metricId, req.body.value)
+
   res.sendStatus(200)
 })
 
