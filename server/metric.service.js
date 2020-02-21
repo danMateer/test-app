@@ -1,4 +1,18 @@
+const moment = require('moment')
+
 const metrics = new Map()
+
+const collectExpiredMetrics = () => {
+  for (const [metricId, metric] of metrics.entries()) {
+    const oneHourEarlier = moment().subtract(1, 'hour')
+
+    if(moment(oneHourEarlier).isAfter(metric.created)) {
+      metrics.delete(metricId)
+    }
+  }
+}
+setInterval(collectExpiredMetrics, 1000)
+
 
 module.exports = {
   hasMetric(metricId) {
@@ -7,11 +21,10 @@ module.exports = {
   getMetricById(metricId) {
     if (!this.hasMetric(metricId)) { throw 'Unknown metric' }
 
-    const { value, created } = metrics.get(metricId)
+    const { value } = metrics.get(metricId)
 
     return {
-      value,
-      created
+      value
     }
   },
   setMetric(id, newValue) {
@@ -24,7 +37,7 @@ module.exports = {
       })
     } else {
       metrics.set(id, {
-        created: new Date(),
+        created: moment().format(),
         value: newValue
       })
     }
