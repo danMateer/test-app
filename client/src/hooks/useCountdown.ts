@@ -9,7 +9,7 @@ export const useCountdown = () => {
 	useEffect(() => {
 		if (!isMounted) return
 
-		const id = setInterval(() => {
+		const id = window.setInterval(() => {
 			if (seconds > 0) setSeconds(sec => sec - 1);
 			if (seconds === 0) {
 				setMinutes(min => min - 1);
@@ -21,7 +21,7 @@ export const useCountdown = () => {
 				clearInterval(interval.current);
 			};
 		}, 1000);
-		// @ts-ignore
+
 		interval.current = id;
 
 		return () => clearInterval(interval.current)
