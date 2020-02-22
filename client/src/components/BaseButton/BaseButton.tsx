@@ -1,22 +1,32 @@
 import React, { ReactNode } from "react";
-import { Button, StyleProps } from "./BaseButton.styles";
+import clsx from "clsx";
 
-interface IProps extends Partial<StyleProps> {
-    children: ReactNode,
-    onClick?(e: React.SyntheticEvent): any
+import './BaseButton.scss'
+
+interface IProps {
+  children: ReactNode
+  theme?: 'positive' | 'negative'
+  rounded?: boolean
+  className?: string
+  onClick?(e: React.SyntheticEvent): any
 };
 
 const BaseButton: React.FC<IProps> = ({
-        children,
-        onClick,
-        btnTheme= "positive",
-        rounded= false
-    }) => {
-    return (
-        <Button btnTheme={btnTheme} rounded={rounded} onClick={onClick}>
-            {children}
-        </Button>
-    )
+    children,
+    onClick,
+    theme= "positive",
+    rounded= false,
+    className
+  }) => {
+  const classes = clsx([className, 'base-button'], {
+    'base-button--rounded': rounded,
+    [`base-button--${theme}`]: theme
+  })
+  return (
+      <button className={classes} onClick={onClick}>
+          {children}
+      </button>
+  )
 };
 
 export { BaseButton };

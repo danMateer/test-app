@@ -1,0 +1,18 @@
+.base-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 12px 24px;
+  color: #fff;
+  &--rounded {
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+  }
+  &--positive {
+    background-color: #53b577;
+  }
+  &--neutral {
+
+  }
+}

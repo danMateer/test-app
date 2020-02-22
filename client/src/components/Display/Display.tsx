@@ -1,5 +1,6 @@
 import React from "react";
-import { Wrapper } from "./Display.style";
+
+import './Display.scss'
 
 interface IProps {
 	minutes: number,
@@ -8,7 +9,7 @@ interface IProps {
 
 const Display: React.FC<IProps> = ({ minutes, seconds }) => {
 	return (
-		<Wrapper>{minutes}:{seconds}</Wrapper>
+		<div className='display'>{minutes}:{seconds}</div>
 	);
 };
 

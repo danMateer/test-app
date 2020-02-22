@@ -1,26 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { useCountdown } from "./hooks/useCountdown";
 
 import { BaseButton } from "./components/BaseButton/BaseButton";
 import { BaseInput } from './components/BaseInput/BaseInput'
-import { Form, Container } from "./App.style";
+import { Display } from "./components/Display/Display";
+
+import './App.scss'
 
 function App() {
-  const [timer, setTimer] = useState('');
+  const [ time, setTime ] = useState('');
+  const [ countdown, setCountdown ] = useState('0:0')
 
-  const startCountdown = (e: React.FormEvent) => {
+  const { timeLeft, startCountdown, pauseCountdown, resumeCountdown } = useCountdown();
+
+  const handleStartCountdown = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(timer)
+    setCountdown(time);
   }
+  useEffect(() => {
+    startCountdown(countdown);
+  }, [countdown, startCountdown]);
 
   return (
-    <Container>
-      <Form onSubmit={startCountdown}>
+    <div className='container'>
+      <form className='form' onSubmit={handleStartCountdown}>
         Countdown: &nbsp;
-        <BaseInput value={timer} onChange={e => setTimer(e.target.value)} />&nbsp;
+        <BaseInput placeholder="(Min)" value={time} onChange={e => setTime(e.target.value)} />&nbsp;
         <BaseButton>START</BaseButton>
-      </Form>
-    </Container>
+      </form>
+      <Display minutes={timeLeft.minutes} seconds={timeLeft.seconds} />
+      <BaseButton onClick={() => pauseCountdown()}>PAUSE</BaseButton>
+      <BaseButton onClick={() => resumeCountdown()}>RESUME</BaseButton>
+    </div>
   );
 };
 

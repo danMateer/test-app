@@ -21,6 +21,7 @@ export const useCountdown = () => {
 				clearInterval(interval.current);
 			};
 		}, 1000);
+		// @ts-ignore
 		interval.current = id;
 
 		return () => clearInterval(interval.current)

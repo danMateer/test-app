@@ -1,5 +1,6 @@
 import React from 'react'
-import {Input} from "./BaseInput.style";
+
+import './BaseInput.scss'
 
 interface IProps {
     onChange?(e: React.ChangeEvent<HTMLInputElement>): any,
@@ -13,7 +14,7 @@ const BaseInput: React.FC<IProps> = ({
         placeholder
     }) => {
     return (
-        <Input placeholder={placeholder} value={value} onChange={onChange} />
+        <input className='base-input' placeholder={placeholder} value={value} onChange={onChange} />
     )
 }
 
