@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { BaseButton } from "./components/BaseButton/BaseButton";
+import { Container } from "./App.style";
+
 function App() {
   return (
-    <div className="App">
-
-    </div>
+    <Container>
+      <BaseButton>Click me!</BaseButton>
+    </Container>
   );
 }
 
-export default App;
+export { App };
