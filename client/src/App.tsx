@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BaseButton } from "./components/BaseButton/BaseButton";
-import { Container } from "./App.style";
+import { BaseInput } from './components/BaseInput/BaseInput'
+import { Form, Container } from "./App.style";
 
 function App() {
+  const [timer, setTimer] = useState('');
+
+  const startCountdown = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log(timer)
+  }
+
   return (
     <Container>
-      <BaseButton>Click me!</BaseButton>
+      <Form onSubmit={startCountdown}>
+        Countdown: &nbsp;
+        <BaseInput value={timer} onChange={e => setTimer(e.target.value)} />&nbsp;
+        <BaseButton>START</BaseButton>
+      </Form>
     </Container>
   );
-}
+};
 
 export { App };
