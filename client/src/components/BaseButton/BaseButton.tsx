@@ -5,7 +5,7 @@ import './BaseButton.scss'
 
 interface IProps {
   children: ReactNode
-  theme?: 'positive' | 'negative'
+  theme?: 'positive' | 'neutral'
   rounded?: boolean
   className?: string
   onClick?(e: React.SyntheticEvent): any

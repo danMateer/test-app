@@ -8,11 +8,13 @@
     border-radius: 50%;
     height: 80px;
     width: 80px;
+    padding: 12px;
   }
   &--positive {
     background-color: #53b577;
   }
   &--neutral {
-
+    background-color: transparent;
+    border: 1px solid #000;
   }
 }
