@@ -13,9 +13,9 @@ import pause from './assets/img/pause.svg'
 import './App.scss'
 
 function App() {
-  const [ time, setTime ] = useState('');
+  const [time, setTime] = useState('');
   const [countdownRate, setCountdownRate] = useState(1)
-  const [ countdown, setCountdown ] = useState('0:0')
+  const [countdown, setCountdown] = useState('0:0')
 
   const {
     timeLeft,
@@ -25,15 +25,22 @@ function App() {
     resumeCountdown
   } = useCountdown(countdownRate);
 
+  const [isCountdownStarted, setIsCountdownStarted] = useState(false)
   const handleStartCountdown = (e: React.FormEvent) => {
     e.preventDefault();
 
     setCountdown(time);
     setTime('');
-  }
+  };
   useEffect(() => {
     startCountdown(countdown);
+    setIsCountdownStarted(true);
   }, [countdown, startCountdown]);
+  useEffect(() => {
+    if (timeLeft.minutes === 0 && timeLeft.seconds === 0 && isCountdownStarted) {
+      setIsCountdownStarted(false);
+    }
+  }, [timeLeft, isCountdownStarted])
 
   return (
     <div className='container'>
@@ -43,7 +50,11 @@ function App() {
         <BaseButton>START</BaseButton>
       </form>
       <div className="display__wrapper">
-        <Display minutes={timeLeft.minutes} seconds={timeLeft.seconds} />
+        <Display
+          minutes={timeLeft.minutes}
+          seconds={timeLeft.seconds}
+          isCountdownStarted={isCountdownStarted}
+        />
         <div className="display__controllers">
           {isPaused
             ? <BaseButton rounded theme='neutral' onClick={resumeCountdown}><img width='100%' src={resume} alt="Resume"/></BaseButton>
@@ -51,7 +62,6 @@ function App() {
           }
         </div>
       </div>
-      Active rate: {countdownRate}
       <RateGroup
         rate={countdownRate}
         rates={[1, 1.5, 2]}
