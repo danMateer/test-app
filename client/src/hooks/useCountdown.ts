@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 
-export const useCountdown = () => {
+export const useCountdown = (rate: number) => {
 	const [minutes, setMinutes] = useState(0)
 	const [seconds, setSeconds] = useState(0)
 
@@ -25,7 +25,7 @@ export const useCountdown = () => {
 	useEffect(() => {
 		if (!isMounted) return;
 
-		const id = window.setInterval(decreaseTimeBy1Sec, 1000);
+		const id = window.setInterval(decreaseTimeBy1Sec, 1000 / rate);
 
 		interval.current = id;
 
@@ -41,10 +41,12 @@ export const useCountdown = () => {
 
 	const [isPaused, setIsPaused] = useState(false)
 	const pauseCountdown = useCallback(() => {
-		if (minutes !== 0 && seconds !== 0) return setIsPaused(true)
-
 		clearInterval(interval.current);
-	}, [minutes, seconds])
+
+		if (seconds !== 0 || minutes !== 0) {
+			setIsPaused(true)
+		}
+	}, [seconds, minutes]);
 
 	const resumeCountdown = useCallback(() => {
 		decreaseTimeBy1Sec();
