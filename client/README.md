@@ -1,4 +1,4 @@
-![App preview](https://imgur.com/Bq4cy2g)
+![App preview](Preview.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
