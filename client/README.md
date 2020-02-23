@@ -1,3 +1,5 @@
+![App preview](https://imgur.com/Bq4cy2g)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
