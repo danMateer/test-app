@@ -3,50 +3,59 @@ import { useEffect, useState, useCallback, useRef } from "react";
 export const useCountdown = () => {
 	const [minutes, setMinutes] = useState(0)
 	const [seconds, setSeconds] = useState(0)
-	const [isMounted, setIsMounted] = useState(false)
+
+
+	const decreaseTimeBy1Sec = useCallback(() => {
+		if (seconds > 0) setSeconds(sec => sec - 1);
+		if (seconds === 0) {
+			setMinutes(min => min - 1);
+			setSeconds(59)
+		};
+		if (seconds <= 0 && minutes <= 0) {
+			setMinutes(0);
+			setSeconds(0);
+			clearInterval(interval.current);
+		};
+	}, [minutes, seconds]);
+
+	const [isMounted, setIsMounted] = useState(false);
+	useEffect(() => setIsMounted(true), []);
+
 	const interval = useRef<number>();
-
 	useEffect(() => {
-		if (!isMounted) return
+		if (!isMounted) return;
 
-		const id = window.setInterval(() => {
-			if (seconds > 0) setSeconds(sec => sec - 1);
-			if (seconds === 0) {
-				setMinutes(min => min - 1);
-				setSeconds(59)
-			};
-			if (seconds <= 0 && minutes <= 0) {
-				setMinutes(0);
-				setSeconds(0);
-				clearInterval(interval.current);
-			};
-		}, 1000);
+		const id = window.setInterval(decreaseTimeBy1Sec, 1000);
 
 		interval.current = id;
 
-		return () => clearInterval(interval.current)
+		return () => clearInterval(interval.current);
 		// eslint-disable-next-line react-hooks/exhaustive-deps,
 	}, [minutes, seconds]);
 
-	useEffect(() => setIsMounted(true), []);
-
 	const startCountdown = useCallback((countdown: string) => {
-		setMinutes(+countdown.split(":")[0]);
-		setSeconds(+countdown.split(":")[1]);
+		const [min, sec] = countdown.split(":")
+		setMinutes(+min);
+		setSeconds(+sec);
 	}, []);
 
+	const [isPaused, setIsPaused] = useState(false)
 	const pauseCountdown = useCallback(() => {
+		if (minutes !== 0 && seconds !== 0) return setIsPaused(true)
+
 		clearInterval(interval.current);
-	}, [])
+	}, [minutes, seconds])
 
 	const resumeCountdown = useCallback(() => {
-		setSeconds(sec => sec - 1)
-	}, [])
+		decreaseTimeBy1Sec();
+		setIsPaused(false)
+	}, [decreaseTimeBy1Sec])
 
 	return {
 		timeLeft: { minutes, seconds },
 		startCountdown,
 		pauseCountdown,
-		resumeCountdown
+		resumeCountdown,
+		isPaused
 	};
 };

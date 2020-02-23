@@ -6,13 +6,22 @@ import { BaseButton } from "./components/BaseButton/BaseButton";
 import { BaseInput } from './components/BaseInput/BaseInput'
 import { Display } from "./components/Display/Display";
 
+import resume from './assets/img/resume.svg'
+import pause from './assets/img/pause.svg'
+
 import './App.scss'
 
 function App() {
   const [ time, setTime ] = useState('');
   const [ countdown, setCountdown ] = useState('0:0')
 
-  const { timeLeft, startCountdown, pauseCountdown, resumeCountdown } = useCountdown();
+  const {
+    timeLeft,
+    startCountdown,
+    pauseCountdown,
+    isPaused,
+    resumeCountdown
+  } = useCountdown();
 
   const handleStartCountdown = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,9 +39,15 @@ function App() {
         <BaseInput placeholder="(Min)" value={time} onChange={e => setTime(e.target.value)} />&nbsp;
         <BaseButton>START</BaseButton>
       </form>
-      <Display minutes={timeLeft.minutes} seconds={timeLeft.seconds} />
-      <BaseButton onClick={() => pauseCountdown()}>PAUSE</BaseButton>
-      <BaseButton onClick={() => resumeCountdown()}>RESUME</BaseButton>
+      <div className="display__wrapper">
+        <Display minutes={timeLeft.minutes} seconds={timeLeft.seconds} />
+        <div className="display__controllers">
+          {isPaused
+            ? <BaseButton rounded theme='neutral' onClick={resumeCountdown}><img width='100%' src={resume} alt="Resume"/></BaseButton>
+            : <BaseButton rounded theme='neutral' onClick={pauseCountdown}><img width='100%' src={pause} alt="Pause"/></BaseButton>
+          }
+        </div>
+      </div>
     </div>
   );
 };

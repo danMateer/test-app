@@ -11,3 +11,14 @@
   align-items: center;
   justify-content: center;
 }
+
+.display__wrapper {
+  position: relative;
+}
+
+.display__controllers {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(120%, -45%);
+}
